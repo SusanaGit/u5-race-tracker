@@ -52,6 +52,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.racetracker.R
 import com.example.racetracker.ui.theme.RaceTrackerTheme
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -69,16 +70,19 @@ fun RaceTrackerApp() {
     }
     var raceInProgress by remember { mutableStateOf(false) }
 
-
     if (raceInProgress) {
         // LaunchedEffect permite llamar de forma segura a las funciones de suspensión desde los elementos composibles
         // Cuando se activa, inicia una coroutine con el bloque de código pasado por parámetro
         // Cuando el usuario clique Start, LaunchedEffect se activa e inicia una coroutine
         // Cada vez que playerOne o playerTwo cambien, se tiene que ejecutar LaunchedEffect
         LaunchedEffect(playerOne, playerTwo) {
-            // con los siguientes launch inicio dos coroutines separadas
-            launch { playerOne.run() }
-            launch { playerTwo.run() }
+            // coroutineScope hace que la coroutine externa no finalice hasta que las hijas terminen
+            // asegura que todas las coroutines hijas dentro de coroutineScope hayan completado su ejecución
+            coroutineScope {
+                // con los siguientes launch inicio dos coroutines separadas
+                launch { playerOne.run() }
+                launch { playerTwo.run() }
+            }
             raceInProgress = false
         }
     }
