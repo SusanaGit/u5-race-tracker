@@ -52,6 +52,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.racetracker.R
 import com.example.racetracker.ui.theme.RaceTrackerTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun RaceTrackerApp() {
@@ -75,8 +76,9 @@ fun RaceTrackerApp() {
         // Cuando el usuario clique Start, LaunchedEffect se activa e inicia una coroutine
         // Cada vez que playerOne o playerTwo cambien, se tiene que ejecutar LaunchedEffect
         LaunchedEffect(playerOne, playerTwo) {
-            playerOne.run()
-            playerTwo.run()
+            // con los siguientes launch inicio dos coroutines separadas
+            launch { playerOne.run() }
+            launch { playerTwo.run() }
             raceInProgress = false
         }
     }
