@@ -15,10 +15,12 @@
  */
 package com.example.racetracker.ui
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * This class represents a state holder for race participant.
@@ -43,13 +45,18 @@ class RaceParticipant(
 
     // si el currentProgress es menor que el maxProgress, incrementa currentProgress
     suspend fun run() {
-        while(currentProgress < maxProgress) {
-            // delay suspende la ejecución de la función (coroutine), sin bloquear el hilo en el que se está ejecutando
-            // el tiempo de suspensión es progressDelayMillis
-            // otras tareas pueden ejecutarse en el mismo hilo o en otros hilos
-            // después del delay la coroutine reanuda su ejecución justo donde se suspendió
-            delay(progressDelayMillis)
-            currentProgress += progressIncrement
+        try {
+            while(currentProgress < maxProgress) {
+                // delay suspende la ejecución de la función (coroutine), sin bloquear el hilo en el que se está ejecutando
+                // el tiempo de suspensión es progressDelayMillis
+                // otras tareas pueden ejecutarse en el mismo hilo o en otros hilos
+                // después del delay la coroutine reanuda su ejecución justo donde se suspendió
+                delay(progressDelayMillis)
+                currentProgress += progressIncrement
+            }
+        } catch (e: CancellationException) {
+            Log.e("RaceParticipant", "$name: ${e.message}")
+            throw e
         }
     }
 
