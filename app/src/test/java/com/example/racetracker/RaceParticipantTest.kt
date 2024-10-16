@@ -16,6 +16,12 @@
 package com.example.racetracker
 
 import com.example.racetracker.ui.RaceParticipant
+import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runCurrent
+import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
 class RaceParticipantTest {
     private val raceParticipant = RaceParticipant(
@@ -25,4 +31,16 @@ class RaceParticipantTest {
         initialProgress = 0,
         progressIncrement = 1
     )
+
+    // runTest es una función especial de prueba proporcionada por coroutines
+    @Test
+    fun raceParticipant_RaceStarted_ProgressUpdated() = runTest {
+        // valor esperado para el progreso de raceParticipant
+        val expectedProgress = 1
+        // coroutine que ejecuta el método run de raceParticipant
+        launch { raceParticipant.run() }
+        advanceTimeBy(raceParticipant.progressDelayMillis)
+        runCurrent()
+        assertEquals(expectedProgress, raceParticipant.currentProgress)
+    }
 }
