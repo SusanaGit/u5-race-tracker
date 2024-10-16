@@ -43,4 +43,13 @@ class RaceParticipantTest {
         runCurrent()
         assertEquals(expectedProgress, raceParticipant.currentProgress)
     }
+
+    // testing if the progress of participant arrives to 100%
+    @Test
+    fun raceParticipant_RaceFinished_ProgressUpdated() = runTest {
+        launch { raceParticipant.run() }
+        advanceTimeBy(raceParticipant.maxProgress * raceParticipant.progressDelayMillis)
+        runCurrent()
+        assertEquals(100, raceParticipant.currentProgress)
+    }
 }
