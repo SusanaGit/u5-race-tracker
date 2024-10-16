@@ -77,6 +77,7 @@ fun RaceTrackerApp() {
         LaunchedEffect(playerOne, playerTwo) {
             playerOne.run()
             playerTwo.run()
+            raceInProgress = false
         }
     }
 
