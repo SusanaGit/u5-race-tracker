@@ -36,6 +36,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,6 +67,13 @@ fun RaceTrackerApp() {
         RaceParticipant(name = "Player 2", progressIncrement = 2)
     }
     var raceInProgress by remember { mutableStateOf(false) }
+
+    // LaunchedEffect permite llamar de forma segura a las funciones de suspensión desde los elementos composibles
+    // Cuando se activa, inicia una coroutine con el bloque de código pasado por parámetro
+    // Cuando el usuario clique Start, LaunchedEffect se activa e inicia una coroutine
+    LaunchedEffect {
+
+    }
 
     RaceTrackerScreen(
         playerOne = playerOne,
