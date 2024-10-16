@@ -71,7 +71,8 @@ fun RaceTrackerApp() {
     // LaunchedEffect permite llamar de forma segura a las funciones de suspensión desde los elementos composibles
     // Cuando se activa, inicia una coroutine con el bloque de código pasado por parámetro
     // Cuando el usuario clique Start, LaunchedEffect se activa e inicia una coroutine
-    LaunchedEffect {
+    // Cada vez que playerOne o playerTwo cambien, se tiene que ejecutar LaunchedEffect
+    LaunchedEffect(playerOne, playerTwo) {
 
     }
 
