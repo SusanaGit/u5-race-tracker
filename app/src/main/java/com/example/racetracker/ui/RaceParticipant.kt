@@ -40,6 +40,13 @@ class RaceParticipant(
     var currentProgress by mutableStateOf(initialProgress)
         private set
 
+    // si el currentProgress es menor que el maxProgress, incrementa currentProgress
+    suspend fun run() {
+        while(currentProgress < maxProgress) {
+            currentProgress += progressIncrement
+        }
+    }
+
     /**
      * Regardless of the value of [initialProgress] the reset function will reset the
      * [currentProgress] to 0
